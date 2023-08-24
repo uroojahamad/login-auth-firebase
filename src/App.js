@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { Container } from 'react-bootstrap';
+import LoginPage from './components/LoginPage';
+import SignUpPage from './components/SignUpPage';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AuthProvider from './context/AuthProvider';
+import Dashboard from './components/Dashboard';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Container
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: "100vh" }}
+    >
+      <div className="w-100" style={{ maxWidth: "400px" }}>
+        <BrowserRouter>
+        <AuthProvider>
+          <Routes>
+            <Route path='/' element={<LoginPage />}/>
+            <Route path='/signup' element={<SignUpPage />}/>
+            <Route path='/dashboard' element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }/>
+          </Routes>
+        </AuthProvider>
+        </BrowserRouter>
+      </div>
+    </Container>
+    </>
   );
 }
 
